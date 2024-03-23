@@ -3,6 +3,7 @@ import simplejson
 
 from model import Model
 
+
 class GLMModel(Model):
     def __init__(self, model_url: str, timeout: int):
         self.model_url = model_url
@@ -14,7 +15,8 @@ class GLMModel(Model):
                 "prompt": prompt,
                 "history": []
             }
-            response = requests.post(self.model_url, json=payload, timeout=self.timeout)
+            response = requests.post(
+                self.model_url, json=payload, timeout=self.timeout)
             response.raise_for_status()
             response_dict = response.json()
             translation = response_dict["response"]

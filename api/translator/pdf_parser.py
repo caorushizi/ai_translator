@@ -38,14 +38,14 @@ class PDFParser:
                 if raw_text:
                     # Remove empty lines and leading/trailing whitespaces
                     raw_text_lines = raw_text.splitlines()
-                    cleaned_raw_text_lines = [line.strip() for line in raw_text_lines if line.strip()]
+                    cleaned_raw_text_lines = [
+                        line.strip() for line in raw_text_lines if line.strip()]
                     cleaned_raw_text = "\n".join(cleaned_raw_text_lines)
 
-                    text_content = Content(content_type=ContentType.TEXT, original=cleaned_raw_text)
+                    text_content = Content(
+                        content_type=ContentType.TEXT, original=cleaned_raw_text)
                     page.add_content(text_content)
                     LOG.debug(f"[raw_text]\n {cleaned_raw_text}")
-
-
 
                 # Handling tables
                 if tables:

@@ -1,4 +1,3 @@
-import os
 from reportlab.lib import colors, pagesizes, units
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
@@ -9,6 +8,7 @@ from reportlab.platypus import (
 
 from book import Book, ContentType
 from utils import LOG
+
 
 class Writer:
     def __init__(self):
@@ -24,7 +24,8 @@ class Writer:
 
     def _save_translated_book_pdf(self, book: Book, output_file_path: str = None):
         if output_file_path is None:
-            output_file_path = book.pdf_file_path.replace('.pdf', f'_translated.pdf')
+            output_file_path = book.pdf_file_path.replace(
+                '.pdf', f'_translated.pdf')
 
         LOG.info(f"pdf_file_path: {book.pdf_file_path}")
         LOG.info(f"开始翻译: {output_file_path}")
@@ -34,7 +35,8 @@ class Writer:
         pdfmetrics.registerFont(TTFont("SimSun", font_path))
 
         # Create a new ParagraphStyle with the SimSun font
-        simsun_style = ParagraphStyle('SimSun', fontName='SimSun', fontSize=12, leading=14)
+        simsun_style = ParagraphStyle(
+            'SimSun', fontName='SimSun', fontSize=12, leading=14)
 
         # Create a PDF document
         doc = SimpleDocTemplate(output_file_path, pagesize=pagesizes.letter)
@@ -58,11 +60,13 @@ class Writer:
                             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
                             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                            ('FONTNAME', (0, 0), (-1, 0), 'SimSun'),  # 更改表头字体为 "SimSun"
+                            # 更改表头字体为 "SimSun"
+                            ('FONTNAME', (0, 0), (-1, 0), 'SimSun'),
                             ('FONTSIZE', (0, 0), (-1, 0), 14),
                             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
                             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                            ('FONTNAME', (0, 1), (-1, -1), 'SimSun'),  # 更改表格中的字体为 "SimSun"
+                            # 更改表格中的字体为 "SimSun"
+                            ('FONTNAME', (0, 1), (-1, -1), 'SimSun'),
                             ('GRID', (0, 0), (-1, -1), 1, colors.black)
                         ])
                         pdf_table = Table(table.values.tolist())
@@ -78,7 +82,8 @@ class Writer:
 
     def _save_translated_book_markdown(self, book: Book, output_file_path: str = None):
         if output_file_path is None:
-            output_file_path = book.pdf_file_path.replace('.pdf', f'_translated.md')
+            output_file_path = book.pdf_file_path.replace(
+                '.pdf', f'_translated.md')
 
         LOG.info(f"pdf_file_path: {book.pdf_file_path}")
         LOG.info(f"开始翻译: {output_file_path}")
@@ -95,10 +100,15 @@ class Writer:
                         elif content.content_type == ContentType.TABLE:
                             # Add table to the Markdown file
                             table = content.translation
-                            header = '| ' + ' | '.join(str(column) for column in table.columns) + ' |' + '\n'
-                            separator = '| ' + ' | '.join(['---'] * len(table.columns)) + ' |' + '\n'
+                            header = '| ' + \
+                                ' | '.join(str(column)
+                                           for column in table.columns) + ' |' + '\n'
+                            separator = '| ' + \
+                                ' | '.join(
+                                    ['---'] * len(table.columns)) + ' |' + '\n'
                             # body = '\n'.join(['| ' + ' | '.join(row) + ' |' for row in table.values.tolist()]) + '\n\n'
-                            body = '\n'.join(['| ' + ' | '.join(str(cell) for cell in row) + ' |' for row in table.values.tolist()]) + '\n\n'
+                            body = '\n'.join(
+                                ['| ' + ' | '.join(str(cell) for cell in row) + ' |' for row in table.values.tolist()]) + '\n\n'
                             output_file.write(header + separator + body)
 
                 # Add a page break (horizontal rule) after each page except the last one

@@ -4,6 +4,7 @@ from translator.pdf_parser import PDFParser
 from translator.writer import Writer
 from utils import LOG
 
+
 class PDFTranslator:
     def __init__(self, model: Model):
         self.model = model
@@ -19,8 +20,10 @@ class PDFTranslator:
                 LOG.debug(prompt)
                 translation, status = self.model.make_request(prompt)
                 LOG.info(translation)
-                
-                # Update the content in self.book.pages directly
-                self.book.pages[page_idx].contents[content_idx].set_translation(translation, status)
 
-        self.writer.save_translated_book(self.book, output_file_path, file_format)
+                # Update the content in self.book.pages directly
+                self.book.pages[page_idx].contents[content_idx].set_translation(
+                    translation, status)
+
+        self.writer.save_translated_book(
+            self.book, output_file_path, file_format)
