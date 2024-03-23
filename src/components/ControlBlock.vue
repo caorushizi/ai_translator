@@ -1,7 +1,7 @@
 <template>
   <div fill direction="horizontal" class="control-block">
-    <div class="block prev">上一步</div>
-    <div class="block next">下一步</div>
+    <div class="block prev" @click="$emit('prev')">上一步</div>
+    <div class="block next" @click="$emit('next')">下一步</div>
   </div>
 </template>
 

@@ -31,4 +31,5 @@ coverage
 
 # server
 .venv
-
+data.db
+upload
